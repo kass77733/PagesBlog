@@ -1,5 +1,5 @@
 <template>
-  <article class="article-card" :class="{ 'card-large': large }">
+  <article class="article-card" :class="{ 'card-large': large, 'reverse': large && reverse }">
     <!-- 封面图片 -->
     <div class="card-image" v-if="article.cover">
       <router-link :to="`/article/${article.id}`" class="image-link">
@@ -94,10 +94,12 @@ import { formatDate as formatDateUtil } from '@/utils'
 interface Props {
   article: Article
   large?: boolean
+  reverse?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  large: false
+  large: false,
+  reverse: false
 })
 
 // 计算属性
@@ -138,6 +140,18 @@ function onImageError(event: Event) {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 0;
+}
+
+.card-large.reverse {
+  grid-template-columns: 2fr 1fr;
+}
+
+.card-large.reverse .card-image {
+  order: 2;
+}
+
+.card-large.reverse .card-content {
+  order: 1;
 }
 
 .card-image {

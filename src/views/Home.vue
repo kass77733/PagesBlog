@@ -37,7 +37,8 @@
               v-for="(article, index) in displayedArticles" 
               :key="article.id"
               :article="article"
-              :large="index === 0"
+              :large="true"
+              :reverse="index % 2 === 1"
             />
           </div>
 
