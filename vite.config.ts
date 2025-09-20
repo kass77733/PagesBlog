@@ -11,7 +11,28 @@ VitePWA({
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}']
       },
-      manifest: false // 使用现有的 manifest.json
+      includeAssets: ['favicon.ico', 'pwa-192x192.png', 'pwa-512x512.png'],
+      manifest: {
+        name: '天空蓝博客',
+        short_name: '博客',
+        description: '一个现代化的个人博客系统',
+        theme_color: '#87CEEB',
+        background_color: '#ffffff',
+        display: 'standalone',
+        start_url: '/',
+        icons: [
+          {
+            src: 'pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: 'pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          }
+        ]
+      }
     })
   ],
   resolve: {
