@@ -49,7 +49,7 @@
         </form>
 
         <div class="login-footer">
-          <p>默认账号：admin / admin123</p>
+          <p>默认在Page环境变量中</p>
         </div>
       </div>
     </div>

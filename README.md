@@ -9,22 +9,26 @@
 - 📖 文章详情页（Markdown 渲染）
 - 💬 评论系统
 - 📂 分类和标签浏览
-- 🔍 文章搜索
-- 📱 响应式设计，支持移动端
+- 🔍 文章搜索（支持标题、内容、分类、标签搜索）
+- 📱 响应式设计，完美支持移动端
+- 🖼️ 自定义 Banner 背景图片
+- 🔗 可配置的社交媒体链接
 
 ### 后台功能
 - 🔐 管理员登录（Token 验证）
-- 📝 文章管理（增删改查）
-- 💬 评论管理
+- 📊 仪表盘（统计信息、最新文章、最新评论）
+- 📝 文章管理（增删改查，支持 Markdown 编辑器）
+- 💬 评论管理（查看、删除评论）
 - 🏷️ 分类/标签管理
-- ⚙️ 系统配置
+- ⚙️ 系统配置（站点信息、主题颜色、社交链接等）
 
 ### 技术特性
 - 🚀 基于 Vue 3 + Vite 构建
 - ☁️ 部署在 Cloudflare Pages
 - 💾 使用 Cloudflare KV 存储数据
 - 📱 PWA 支持（可安装为 Web App）
-- 🎨 现代化 UI 设计（天空蓝主题）
+- 🎨 可自定义主题颜色
+- ✏️ 轻量级 Markdown 编辑器
 
 ## 技术栈
 
@@ -79,6 +83,7 @@ npm run preview
 
 ## 部署到 Cloudflare Pages
 
+### 1. 基础部署
 1. 将代码推送到 GitHub/GitLab
 2. 在 Cloudflare Pages 控制台创建新项目
 3. 连接您的 Git 仓库
@@ -88,6 +93,19 @@ npm run preview
 5. 绑定 KV Namespace:
    - 变量名称: `BLOG_DATA`
    - KV namespace: (选择或创建一个 KV namespace)
+
+### 2. 环境变量配置
+在 Cloudflare Pages 控制台的 Settings > Environment variables 中设置以下变量：
+
+#### 必需的环境变量
+- `ADMIN_USERNAME` - 管理员用户名（默认: admin）
+- `ADMIN_PASSWORD` - 管理员密码（默认: admin123）
+- `ADMIN_TOKEN` - 管理员访问令牌（默认: admin-token-2024）
+
+#### 安全建议
+- 使用强密码和随机令牌
+- 定期更换凭据
+- 不要在代码中硬编码凭据
 
 ## Cloudflare KV 数据结构
 
@@ -148,23 +166,72 @@ npm run preview
 - 修改 `src/assets/css/main.css` 中的 CSS 变量
 - 更新 `public/manifest.json` 中的主题颜色
 
+## 系统配置
+
+部署完成后，访问 `/login` 页面使用管理员账号登录，然后进入系统设置页面进行配置：
+
+### 基本设置
+- **博客名称**: 网站标题
+- **博客描述**: 网站描述（用于 SEO）
+- **主题颜色**: 自定义网站主色调
+- **Banner图片URL**: 首页横幅背景图片
+
+### 社交媒体
+- **GitHub链接**: 显示在页脚的 GitHub 链接
+- **Twitter链接**: 显示在页脚的 Twitter 链接
+
+### 内容管理
+- **分类管理**: 添加/删除文章分类
+- **标签管理**: 添加/删除文章标签
+
+## 使用指南
+
+### 文章编辑
+- 支持 Markdown 语法
+- 内置轻量级编辑器工具栏
+- 实时预览功能
+- 自动生成文章摘要
+
+### 评论系统
+- 访客可以发表评论
+- 管理员可以在后台管理评论
+- 支持删除不当评论
+
 ## 故障排除
 
-### API 请求失败
+### 常见问题
 
-如果部署后遇到 `SyntaxError: Unexpected token '<'` 错误，通常是由于 API 请求没有正确路由到 Cloudflare Functions。请确保：
+1. **登录失败**: 检查环境变量是否正确设置
+2. **API 请求失败**: 确保 KV Namespace 正确绑定
+3. **主题颜色不生效**: 清除浏览器缓存后重试
+4. **移动端菜单问题**: 确保使用最新版本的代码
 
-1. `public/_routes.json` 文件存在且配置正确
-2. Cloudflare Pages 项目已正确绑定 KV Namespace
-3. Functions 文件结构正确
+### 数据备份
 
-详细的问题解决方法请参考 [DEPLOYMENT_ISSUES.md](DEPLOYMENT_ISSUES.md) 文件。
+建议定期备份 Cloudflare KV 中的数据：
+- 文章数据: `articles:*`
+- 评论数据: `comments:*`
+- 配置数据: `config`, `categories`, `tags`
 
-### PWA 功能问题
+## 更新日志
 
-1. 检查 `manifest.json` 是否正确配置
-2. 确保 Service Worker 文件存在且正确
-3. 验证 HTTPS 是否已启用（Cloudflare Pages 自动提供 HTTPS）
+### v2.0.0
+- ✨ 新增仪表盘统计功能
+- ✨ 新增 Markdown 编辑器工具栏
+- ✨ 新增自定义 Banner 图片功能
+- ✨ 新增社交媒体链接配置
+- ✨ 优化移动端体验
+- ✨ 新增主题颜色自定义功能
+- 🐛 修复搜索功能
+- 🐛 修复评论管理功能
+- 🐛 修复各种 API 接口问题
+
+### v1.0.0
+- 🎉 初始版本发布
+- ✨ 基础博客功能
+- ✨ 文章管理
+- ✨ 评论系统
+- ✨ PWA 支持
 
 ## 许可证
 
@@ -173,3 +240,11 @@ MIT License
 ## 联系方式
 
 如有问题或建议，请提交 Issue 或 Pull Request。
+
+## 致谢
+
+感谢以下技术和服务：
+- [Vue.js](https://vuejs.org/) - 前端框架
+- [Vite](https://vitejs.dev/) - 构建工具
+- [Cloudflare Pages](https://pages.cloudflare.com/) - 部署平台
+- [Cloudflare KV](https://developers.cloudflare.com/workers/runtime-apis/kv/) - 数据存储
