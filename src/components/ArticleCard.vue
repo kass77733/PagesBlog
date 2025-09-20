@@ -150,14 +150,14 @@ function onImageError(event: Event) {
   position: relative;
   overflow: hidden;
   background: #f8f9fa;
-}
-
-.article-card:not(.card-large) .card-image {
-  aspect-ratio: 16 / 9;
+  width: 300px;
+  height: 200px;
+  flex-shrink: 0;
 }
 
 .card-large .card-image {
-  aspect-ratio: 4 / 3;
+  width: 300px;
+  height: 200px;
 }
 
 .image-link {
