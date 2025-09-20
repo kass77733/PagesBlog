@@ -29,16 +29,6 @@
         <div class="articles-section">
           <div class="section-header">
             <h2 class="section-title">最新文章</h2>
-            <div class="section-actions">
-              <select 
-                v-model="sortBy" 
-                class="sort-select"
-                @change="handleSortChange"
-              >
-                <option value="newest">最新发布</option>
-                <option value="oldest">最早发布</option>
-              </select>
-            </div>
           </div>
 
           <!-- 文章卡片网格 -->
@@ -136,8 +126,7 @@ import Pagination from '@/components/Pagination.vue'
 
 const blogStore = useBlogStore()
 
-// 响应式数据
-const sortBy = ref('newest')
+
 
 // 计算属性
 const config = computed(() => blogStore.config)
@@ -148,14 +137,7 @@ const loading = computed(() => blogStore.loading)
 const pagination = computed(() => blogStore.pagination)
 const recentComments = computed(() => blogStore.recentComments || [])
 
-// 显示的文章列表（根据排序方式）
-const displayedArticles = computed(() => {
-  const sorted = [...articles.value]
-  if (sortBy.value === 'oldest') {
-    sorted.reverse()
-  }
-  return sorted
-})
+const displayedArticles = computed(() => articles.value)
 
 // 方法
 function getArticlesCountByCategory(category: string) {
@@ -181,10 +163,7 @@ function getArticleTitle(articleId: string) {
   return article?.title || '文章已删除'
 }
 
-function handleSortChange() {
-  // 排序变化时重新获取文章
-  blogStore.fetchArticles(pagination.value.page, pagination.value.pageSize)
-}
+
 
 function handlePageChange(page: number) {
   blogStore.fetchArticles(page, pagination.value.pageSize)
