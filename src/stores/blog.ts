@@ -27,10 +27,10 @@ export const useBlogStore = defineStore('blog', () => {
     totalPages: 0
   })
 
+  // 认证状态
+  const isAuthenticated = ref(!!localStorage.getItem('adminToken'))
+  
   // 计算属性
-  const isAuthenticated = computed(() => {
-    return !!localStorage.getItem('adminToken')
-  })
 
   const recentArticles = computed(() => {
     return articles.value.slice(0, 5)
@@ -279,6 +279,7 @@ export const useBlogStore = defineStore('blog', () => {
       const response = await api.auth.login(username, password)
       if (response.success && response.token) {
         localStorage.setItem('adminToken', response.token)
+        isAuthenticated.value = true
         return true
       }
       return false
@@ -294,6 +295,7 @@ export const useBlogStore = defineStore('blog', () => {
   // 登出
   function logout() {
     localStorage.removeItem('adminToken')
+    isAuthenticated.value = false
     currentArticle.value = null
   }
 
