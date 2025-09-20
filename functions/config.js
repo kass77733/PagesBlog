@@ -52,10 +52,10 @@ export async function onRequestGet(context) {
 export async function onRequestPost(context) {
   const { request, env } = context;
   
-  const authHeader = request.headers.get("Authorization");
-  if (!authHeader) {
+  const authHeader = request.headers.get('Authorization');
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return new Response(
-      JSON.stringify({ success: false, message: "未提供认证信息" }),
+      JSON.stringify({ success: false, message: "未授权访问" }),
       { 
         status: 401, 
         headers: { 
@@ -67,15 +67,12 @@ export async function onRequestPost(context) {
       }
     );
   }
-  
-  const token = authHeader.replace("Bearer ", "");
-  const adminToken = env.ADMIN_TOKEN || "default-admin-token";
-  
-  if (token !== adminToken) {
+  const token = authHeader.substring(7);
+  if (token !== 'admin-token-2024') {
     return new Response(
-      JSON.stringify({ success: false, message: "认证失败" }),
+      JSON.stringify({ success: false, message: "未授权访问" }),
       { 
-        status: 403, 
+        status: 401, 
         headers: { 
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",

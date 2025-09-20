@@ -1,9 +1,10 @@
 function verifyAdminToken(request, env) {
-  const authHeader = request.headers.get("Authorization");
-  if (!authHeader) return false;
-  
-  const token = authHeader.replace("Bearer ", "");
-  const adminToken = env.ADMIN_TOKEN || "default-admin-token";
+  const authHeader = request.headers.get('Authorization');
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return false;
+  }
+  const token = authHeader.substring(7);
+  const adminToken = env?.ADMIN_TOKEN || 'admin-token-2024';
   return token === adminToken;
 }
 

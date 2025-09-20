@@ -272,8 +272,23 @@ export const useBlogStore = defineStore('blog', () => {
   }
 
   // 登录
-  function login(token: string) {
-    localStorage.setItem('adminToken', token)
+  async function login(username: string, password: string) {
+    loading.value = true
+    error.value = null
+    try {
+      const response = await api.auth.login(username, password)
+      if (response.success && response.data?.token) {
+        localStorage.setItem('adminToken', response.data.token)
+        return true
+      }
+      return false
+    } catch (err) {
+      error.value = '登录失败'
+      console.error(err)
+      return false
+    } finally {
+      loading.value = false
+    }
   }
 
   // 登出

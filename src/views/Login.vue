@@ -4,18 +4,30 @@
       <div class="login-card">
         <div class="login-header">
           <h1 class="login-title">管理员登录</h1>
-          <p class="login-subtitle">请输入您的管理员 Token</p>
+          <p class="login-subtitle">请输入您的管理员账号</p>
         </div>
 
         <form @submit.prevent="handleLogin" class="login-form">
           <div class="form-group">
-            <label for="token" class="form-label">管理员 Token</label>
+            <label for="username" class="form-label">用户名</label>
             <input
-              id="token"
-              v-model="token"
+              id="username"
+              v-model="username"
+              type="text"
+              class="form-control"
+              placeholder="请输入用户名"
+              required
+            >
+          </div>
+          
+          <div class="form-group">
+            <label for="password" class="form-label">密码</label>
+            <input
+              id="password"
+              v-model="password"
               type="password"
               class="form-control"
-              placeholder="请输入您的管理员 Token"
+              placeholder="请输入密码"
               required
             >
           </div>
@@ -37,7 +49,7 @@
         </form>
 
         <div class="login-footer">
-          <p>忘记 Token？请联系博客管理员获取。</p>
+          <p>默认账号：admin / admin123</p>
         </div>
       </div>
     </div>
@@ -53,14 +65,15 @@ const router = useRouter()
 const blogStore = useBlogStore()
 
 // 响应式数据
-const token = ref('')
+const username = ref('')
+const password = ref('')
 const submitting = ref(false)
 const error = ref('')
 
 // 方法
 async function handleLogin() {
-  if (!token.value.trim()) {
-    error.value = '请输入管理员 Token'
+  if (!username.value.trim() || !password.value.trim()) {
+    error.value = '请输入用户名和密码'
     return
   }
 
@@ -68,14 +81,16 @@ async function handleLogin() {
   error.value = ''
 
   try {
-    // 验证 token（在实际应用中会调用 API 验证）
-    // 这里我们假设任何非空 token 都是有效的
-    blogStore.login(token.value.trim())
+    const success = await blogStore.login(username.value.trim(), password.value.trim())
     
-    // 登录成功，跳转到管理后台
-    router.push('/admin')
+    if (success) {
+      // 登录成功，跳转到管理后台
+      router.push('/admin')
+    } else {
+      error.value = '用户名或密码错误'
+    }
   } catch (err) {
-    error.value = '登录失败，请检查您的 Token 是否正确'
+    error.value = '登录失败，请检查网络连接'
     console.error('登录失败:', err)
   } finally {
     submitting.value = false
@@ -124,6 +139,14 @@ async function handleLogin() {
 
 .login-form {
   margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group:last-of-type {
+  margin-bottom: 0;
 }
 
 .form-actions {

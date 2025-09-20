@@ -19,7 +19,7 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use(
   (config) => {
     // 添加认证 token
-    const token = localStorage.getItem('admin_token')
+    const token = localStorage.getItem('adminToken')
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
@@ -141,6 +141,12 @@ export const taxonomyApi = {
 
 // 认证相关 API
 export const authApi = {
+  login: (username: string, password: string): Promise<ApiResponse<{ token: string }>> =>
+    request('/auth', {
+      method: 'POST',
+      data: { username, password },
+    }),
+
   verify: (token: string): Promise<ApiResponse<{ valid: boolean }>> =>
     request('/auth/verify', {
       method: 'POST',
