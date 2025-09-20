@@ -128,7 +128,7 @@ function onImageError(event: Event) {
   overflow: hidden;
   box-shadow: var(--shadow);
   transition: var(--transition);
-  height: 200px;
+  height: 250px;
 }
 
 .article-card:hover {
@@ -138,26 +138,24 @@ function onImageError(event: Event) {
 
 .card-large {
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 350px 1fr;
   gap: 0;
-  height: 200px;
+  height: 250px;
 }
 
 .card-large.reverse {
-  grid-template-columns: 1fr 300px;
+  grid-template-columns: 1fr 350px;
 }
 
 .card-image {
   position: relative;
   overflow: hidden;
   background: #f8f9fa;
-  width: 300px;
-  height: 200px;
 }
 
 .card-large .card-image {
-  width: 100%;
-  height: 100%;
+  width: 350px;
+  height: 250px;
 }
 
 .image-link {
