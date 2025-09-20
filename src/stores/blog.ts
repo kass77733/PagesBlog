@@ -9,6 +9,7 @@ export const useBlogStore = defineStore('blog', () => {
   const articles = ref<Article[]>([])
   const currentArticle = ref<Article | null>(null)
   const comments = ref<Comment[]>([])
+  const recentComments = ref<Comment[]>([])
   const categories = ref<string[]>([])
   const tags = ref<string[]>([])
   const config = ref<BlogConfig>({
@@ -158,6 +159,25 @@ export const useBlogStore = defineStore('blog', () => {
       console.error(err)
     } finally {
       loading.value = false
+    }
+  }
+
+  async function fetchRecentComments() {
+    try {
+      // 获取所有文章的评论
+      const allComments: Comment[] = []
+      for (const article of articles.value) {
+        const response = await api.comments.getByArticleId(article.id)
+        if (response.success && response.data) {
+          allComments.push(...response.data)
+        }
+      }
+      // 按时间排序并取前3条
+      recentComments.value = allComments
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        .slice(0, 3)
+    } catch (err) {
+      console.error('获取最新评论失败:', err)
     }
   }
 
@@ -328,6 +348,7 @@ export const useBlogStore = defineStore('blog', () => {
     articles,
     currentArticle,
     comments,
+    recentComments,
     categories,
     tags,
     config,
@@ -347,6 +368,7 @@ export const useBlogStore = defineStore('blog', () => {
     updateArticle,
     deleteArticle,
     fetchComments,
+    fetchRecentComments,
     createComment,
     deleteComment,
     fetchCategories,

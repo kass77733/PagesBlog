@@ -113,10 +113,13 @@
         <div class="sidebar-card">
           <h3 class="sidebar-title">最新评论</h3>
           <div class="recent-comments">
-            <div class="comment-item" v-for="i in 3" :key="i">
-              <div class="comment-author">访客</div>
-              <div class="comment-content">这是一条示例评论内容...</div>
-              <div class="comment-meta">在《文章标题》中</div>
+            <div class="comment-item" v-for="comment in recentComments" :key="comment.id">
+              <div class="comment-author">{{ comment.nickname }}</div>
+              <div class="comment-content">{{ comment.content }}</div>
+              <div class="comment-meta">在《{{ getArticleTitle(comment.articleId) }}》中</div>
+            </div>
+            <div v-if="recentComments.length === 0" class="no-comments">
+              暂无评论
             </div>
           </div>
         </div>
@@ -143,6 +146,7 @@ const categories = computed(() => blogStore.categories)
 const tags = computed(() => blogStore.tags)
 const loading = computed(() => blogStore.loading)
 const pagination = computed(() => blogStore.pagination)
+const recentComments = computed(() => blogStore.recentComments || [])
 
 // 显示的文章列表（根据排序方式）
 const displayedArticles = computed(() => {
@@ -172,6 +176,11 @@ function getTagFontSize(tag: string) {
   return `${size}rem`
 }
 
+function getArticleTitle(articleId: string) {
+  const article = articles.value.find(a => a.id === articleId)
+  return article?.title || '文章已删除'
+}
+
 function handleSortChange() {
   // 排序变化时重新获取文章
   blogStore.fetchArticles(pagination.value.page, pagination.value.pageSize)
@@ -190,6 +199,9 @@ onMounted(async () => {
     blogStore.fetchTags(),
     blogStore.fetchConfig()
   ])
+  
+  // 获取最新评论
+  await blogStore.fetchRecentComments()
 })
 </script>
 

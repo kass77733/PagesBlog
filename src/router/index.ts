@@ -20,9 +20,9 @@ const router = createRouter({
       component: () => import('@/views/Category.vue')
     },
     {
-      path: '/tag/:name',
+      path: '/tag/:tag',
       name: 'tag',
-      component: () => import('@/views/Tag.vue')
+      component: () => import('@/views/TagView.vue')
     },
     {
       path: '/search',
