@@ -130,11 +130,23 @@ async function refreshComments() {
   loading.value = true
   try {
     // 获取所有文章
-    await blogStore.fetchArticles(1, 100) // 获取足够多的文章
+    await blogStore.fetchArticles(1, 100)
     
-    // 获取所有评论（在实际应用中可能需要分页）
-    // 这里简化处理，假设所有评论都能获取到
-    allComments.value = blogStore.comments
+    // 获取所有文章的评论
+    const comments = []
+    for (const article of articles.value) {
+      try {
+        await blogStore.fetchComments(article.id)
+        comments.push(...blogStore.comments)
+      } catch (error) {
+        console.error(`获取文章 ${article.id} 的评论失败:`, error)
+      }
+    }
+    
+    // 按时间排序
+    allComments.value = comments.sort((a, b) => 
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    )
   } catch (error) {
     console.error('刷新评论失败:', error)
   } finally {
