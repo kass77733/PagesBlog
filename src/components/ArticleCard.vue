@@ -138,12 +138,13 @@ function onImageError(event: Event) {
 
 .card-large {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 300px 1fr;
   gap: 0;
+  min-height: 200px;
 }
 
 .card-large.reverse {
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr 300px;
 }
 
 .card-image {
@@ -152,12 +153,11 @@ function onImageError(event: Event) {
   background: #f8f9fa;
   width: 300px;
   height: 200px;
-  flex-shrink: 0;
 }
 
 .card-large .card-image {
-  width: 300px;
-  height: 200px;
+  width: 100%;
+  height: 100%;
 }
 
 .image-link {
@@ -171,6 +171,7 @@ function onImageError(event: Event) {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   transition: var(--transition);
 }
 
