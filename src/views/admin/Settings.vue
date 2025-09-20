@@ -254,9 +254,8 @@ async function handleSave() {
     })
 
     // 保存分类和标签
-    // 在实际应用中，这些应该通过 API 保存
-    console.log('保存分类:', form.categories)
-    console.log('保存标签:', form.tags)
+    await blogStore.updateCategories(form.categories)
+    await blogStore.updateTags(form.tags)
 
     success.value = true
     

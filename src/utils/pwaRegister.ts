@@ -15,8 +15,6 @@ const updateSW = registerSW({
   },
   onOfflineReady() {
     console.log('应用已可以离线使用')
-    // 可以显示一个提示告知用户应用已可以离线使用
-    alert('应用已可以离线使用')
   },
   onRegistered(swRegistration) {
     console.log('SW registered: ', swRegistration)

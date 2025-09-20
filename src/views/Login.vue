@@ -85,7 +85,7 @@ async function handleLogin() {
     
     if (success) {
       // 登录成功，跳转到管理后台
-      router.push('/admin')
+      await router.push('/admin')
     } else {
       error.value = '用户名或密码错误'
     }

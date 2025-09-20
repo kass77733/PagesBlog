@@ -218,6 +218,30 @@ export const useBlogStore = defineStore('blog', () => {
     }
   }
 
+  async function updateCategories(newCategories: string[]) {
+    try {
+      const response = await api.taxonomy.updateCategories(newCategories)
+      if (response.success && response.data) {
+        categories.value = response.data
+      }
+    } catch (err) {
+      console.error('更新分类失败:', err)
+      throw err
+    }
+  }
+
+  async function updateTags(newTags: string[]) {
+    try {
+      const response = await api.taxonomy.updateTags(newTags)
+      if (response.success && response.data) {
+        tags.value = response.data
+      }
+    } catch (err) {
+      console.error('更新标签失败:', err)
+      throw err
+    }
+  }
+
   async function fetchConfig() {
     try {
       const response = await api.config.get()
@@ -327,6 +351,8 @@ export const useBlogStore = defineStore('blog', () => {
     deleteComment,
     fetchCategories,
     fetchTags,
+    updateCategories,
+    updateTags,
     fetchConfig,
     updateConfig,
     searchArticles,
