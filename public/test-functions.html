@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Functions Test</title>
+</head>
+<body>
+    <h1>Functions Test</h1>
+    <button onclick="testGetConfig()">Test GET Config</button>
+    <button onclick="testPostConfig()">Test POST Config</button>
+    <div id="result"></div>
+
+    <script>
+        const baseUrl = 'https://sky.lozone.qzz.io';
+        const resultDiv = document.getElementById('result');
+
+        async function testGetConfig() {
+            try {
+                resultDiv.innerHTML = 'Testing GET /functions/config...';
+                const response = await fetch(`${baseUrl}/functions/config`);
+                const data = await response.json();
+                resultDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                resultDiv.innerHTML = `Error: ${error.message}`;
+            }
+        }
+
+        async function testPostConfig() {
+            try {
+                resultDiv.innerHTML = 'Testing POST /functions/config...';
+                // 注意：这个测试需要您提供真实的 ADMIN_TOKEN
+                const response = await fetch(`${baseUrl}/functions/config`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer YOUR_ADMIN_TOKEN_HERE'
+                    },
+                    body: JSON.stringify({
+                        siteName: 'Test Blog',
+                        description: 'Test Description',
+                        themeColor: '#FF0000'
+                    })
+                });
+                const data = await response.json();
+                resultDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                resultDiv.innerHTML = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
