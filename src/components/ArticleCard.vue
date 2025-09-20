@@ -128,7 +128,17 @@ function onImageError(event: Event) {
   overflow: hidden;
   box-shadow: var(--shadow);
   transition: var(--transition);
+  width: 300px;
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+}
+
+.article-card.card-large {
+  width: 100%;
   height: 250px;
+  display: grid;
+  flex-direction: unset;
 }
 
 .article-card:hover {
@@ -137,10 +147,8 @@ function onImageError(event: Event) {
 }
 
 .card-large {
-  display: grid;
   grid-template-columns: 350px 1fr;
   gap: 0;
-  height: 250px;
 }
 
 .card-large.reverse {
@@ -159,11 +167,15 @@ function onImageError(event: Event) {
   position: relative;
   overflow: hidden;
   background: #f8f9fa;
+  width: 100%;
+  height: 180px;
+  flex-shrink: 0;
 }
 
 .card-large .card-image {
   width: 350px;
   height: 250px;
+  flex-shrink: unset;
 }
 
 .image-link {
@@ -210,12 +222,19 @@ function onImageError(event: Event) {
 }
 
 .card-content {
-  padding: 1.5rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  height: 100%;
+  gap: 0.5rem;
+  flex: 1;
   overflow: hidden;
+}
+
+.card-large .card-content {
+  padding: 1.5rem;
+  gap: 0.75rem;
+  flex: unset;
+  height: 100%;
 }
 
 .article-meta-top {
@@ -351,16 +370,56 @@ function onImageError(event: Event) {
 
 /* 移动端适配 */
 @media (max-width: 768px) {
+  .article-card {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+  }
+  
   .card-large {
-    grid-template-columns: 1fr;
+    width: 100%;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: unset;
+  }
+  
+  .card-large.reverse {
+    grid-template-columns: unset;
+  }
+  
+  .card-large.reverse .card-image,
+  .card-large.reverse .card-content {
+    order: unset;
+  }
+  
+  .card-image {
+    width: 100%;
+    height: 200px;
+    flex-shrink: 0;
+  }
+  
+  .card-large .card-image {
+    width: 100%;
+    height: 200px;
+    flex-shrink: 0;
+  }
+  
+  .card-content {
+    padding: 1rem;
+    flex: 1;
+    overflow: hidden;
+  }
+  
+  .card-large .card-content {
+    padding: 1rem;
+    flex: 1;
+    overflow: hidden;
   }
   
   .article-title {
     font-size: 1.1rem;
-  }
-  
-  .card-large .article-title {
-    font-size: 1.25rem;
   }
   
   .article-footer {

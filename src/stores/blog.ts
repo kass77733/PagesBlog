@@ -284,9 +284,51 @@ export const useBlogStore = defineStore('blog', () => {
         if (metaTheme) {
           metaTheme.setAttribute('content', config.value.themeColor)
         }
+        // 更新PWA manifest
+        updatePWAManifest()
       }
     } catch (err) {
       console.error('获取配置失败:', err)
+    }
+  }
+  
+  function updatePWAManifest() {
+    // 动态更新PWA manifest
+    const manifestData = {
+      name: config.value.siteName,
+      short_name: config.value.siteName.length > 12 ? config.value.siteName.substring(0, 12) : config.value.siteName,
+      description: config.value.description,
+      theme_color: config.value.themeColor,
+      background_color: '#ffffff',
+      display: 'standalone',
+      start_url: '/',
+      icons: [
+        {
+          src: '/pwa-192x192.png',
+          sizes: '192x192',
+          type: 'image/png'
+        },
+        {
+          src: '/pwa-512x512.png',
+          sizes: '512x512',
+          type: 'image/png'
+        }
+      ]
+    }
+    
+    // 创建新的manifest blob
+    const manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' })
+    const manifestURL = URL.createObjectURL(manifestBlob)
+    
+    // 更新manifest链接
+    let manifestLink = document.querySelector('link[rel="manifest"]') as HTMLLinkElement
+    if (manifestLink) {
+      manifestLink.href = manifestURL
+    } else {
+      manifestLink = document.createElement('link')
+      manifestLink.rel = 'manifest'
+      manifestLink.href = manifestURL
+      document.head.appendChild(manifestLink)
     }
   }
 
