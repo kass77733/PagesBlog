@@ -143,3 +143,52 @@ export async function onRequestPut(context) {
     );
   }
 }
+
+export async function onRequestDelete(context) {
+  const { request, params, env } = context;
+  const id = params.id;
+  
+  if (!verifyToken(request, env)) {
+    return new Response(
+      JSON.stringify({ success: false, message: "未授权访问" }),
+      { 
+        status: 401, 
+        headers: { 
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, PUT, DELETE, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        } 
+      }
+    );
+  }
+  
+  try {
+    await env.BLOG_DATA.delete(`articles:${id}`);
+    
+    return new Response(
+      JSON.stringify({ success: true, message: "文章删除成功" }),
+      {
+        headers: { 
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, PUT, DELETE, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        },
+      }
+    );
+  } catch (error) {
+    return new Response(
+      JSON.stringify({ success: false, message: "删除文章失败" }),
+      { 
+        status: 500, 
+        headers: { 
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, PUT, DELETE, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        } 
+      }
+    );
+  }
+}
