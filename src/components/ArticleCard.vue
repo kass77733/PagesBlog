@@ -372,14 +372,14 @@ function onImageError(event: Event) {
 @media (max-width: 768px) {
   .article-card {
     width: 100%;
-    height: 400px;
+    height: 320px;
     display: flex;
     flex-direction: column;
   }
   
   .card-large {
     width: 100%;
-    height: 400px;
+    height: 320px;
     display: flex;
     flex-direction: column;
     grid-template-columns: unset;
@@ -396,13 +396,13 @@ function onImageError(event: Event) {
   
   .card-image {
     width: 100%;
-    height: 200px;
+    height: 150px;
     flex-shrink: 0;
   }
   
   .card-large .card-image {
     width: 100%;
-    height: 200px;
+    height: 150px;
     flex-shrink: 0;
   }
   
