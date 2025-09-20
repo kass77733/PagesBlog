@@ -147,6 +147,14 @@ function onImageError(event: Event) {
   grid-template-columns: 1fr 350px;
 }
 
+.card-large.reverse .card-image {
+  order: 2;
+}
+
+.card-large.reverse .card-content {
+  order: 1;
+}
+
 .card-image {
   position: relative;
   overflow: hidden;
