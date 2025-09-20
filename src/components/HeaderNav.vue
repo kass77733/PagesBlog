@@ -23,7 +23,7 @@
           首页
         </router-link>
         
-        <div class="dropdown" @mouseenter="showCategoryDropdown = true" @mouseleave="showCategoryDropdown = false">
+        <div class="dropdown" @mouseenter="showCategoryDropdown = true" @mouseleave="showCategoryDropdown = false" @click="toggleCategoryDropdown">
           <span class="nav-link dropdown-trigger">
             分类
             <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none">
@@ -69,7 +69,7 @@
         >
           登录
         </router-link>
-        <div v-else class="dropdown" @mouseenter="showAdminDropdown = true" @mouseleave="showAdminDropdown = false">
+        <div v-else class="dropdown" @mouseenter="showAdminDropdown = true" @mouseleave="showAdminDropdown = false" @click="toggleAdminDropdown">
           <span class="nav-link dropdown-trigger admin-link">
             管理
             <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none">
@@ -140,6 +140,20 @@ function toggleMobileNav() {
 
 function closeMobileNav() {
   mobileNavOpen.value = false
+  showCategoryDropdown.value = false
+  showAdminDropdown.value = false
+}
+
+function toggleCategoryDropdown() {
+  if (window.innerWidth <= 768) {
+    showCategoryDropdown.value = !showCategoryDropdown.value
+  }
+}
+
+function toggleAdminDropdown() {
+  if (window.innerWidth <= 768) {
+    showAdminDropdown.value = !showAdminDropdown.value
+  }
 }
 
 function handleLogout() {
@@ -431,6 +445,11 @@ onMounted(async () => {
     border: none;
     background: #f8f9fa;
     margin: 0;
+    display: block;
+  }
+  
+  .dropdown {
+    display: block;
   }
 
   .dropdown-item {

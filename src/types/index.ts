@@ -26,6 +26,9 @@ export interface BlogConfig {
   siteName: string
   description: string
   themeColor: string
+  bannerImage?: string
+  githubUrl?: string
+  twitterUrl?: string
   adminToken?: string
 }
 

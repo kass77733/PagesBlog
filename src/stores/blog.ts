@@ -267,6 +267,17 @@ export const useBlogStore = defineStore('blog', () => {
       const response = await api.config.get()
       if (response.success && response.data) {
         config.value = response.data
+        // 更新页面title和description
+        document.title = config.value.siteName
+        const metaDescription = document.querySelector('meta[name="description"]')
+        if (metaDescription) {
+          metaDescription.setAttribute('content', config.value.description)
+        }
+        // 更新主题颜色
+        const metaTheme = document.querySelector('meta[name="theme-color"]')
+        if (metaTheme) {
+          metaTheme.setAttribute('content', config.value.themeColor)
+        }
       }
     } catch (err) {
       console.error('获取配置失败:', err)

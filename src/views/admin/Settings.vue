@@ -58,6 +58,39 @@
             >
           </div>
         </div>
+        
+        <div class="form-group">
+          <label for="bannerImage" class="form-label">Banner图片URL</label>
+          <input
+            id="bannerImage"
+            v-model="form.bannerImage"
+            type="url"
+            class="form-control"
+            placeholder="请输入Banner图片链接"
+          >
+        </div>
+        
+        <div class="form-group">
+          <label for="githubUrl" class="form-label">GitHub链接</label>
+          <input
+            id="githubUrl"
+            v-model="form.githubUrl"
+            type="url"
+            class="form-control"
+            placeholder="https://github.com/username"
+          >
+        </div>
+        
+        <div class="form-group">
+          <label for="twitterUrl" class="form-label">Twitter链接</label>
+          <input
+            id="twitterUrl"
+            v-model="form.twitterUrl"
+            type="url"
+            class="form-control"
+            placeholder="https://twitter.com/username"
+          >
+        </div>
       </div>
 
       <!-- 分类管理 -->
@@ -203,6 +236,9 @@ const form = reactive({
   siteName: '',
   description: '',
   themeColor: '#87CEEB',
+  bannerImage: '',
+  githubUrl: '',
+  twitterUrl: '',
   categories: [] as string[],
   tags: [] as string[],
   adminToken: ''
@@ -250,7 +286,10 @@ async function handleSave() {
     await blogStore.updateConfig({
       siteName: form.siteName,
       description: form.description,
-      themeColor: form.themeColor
+      themeColor: form.themeColor,
+      bannerImage: form.bannerImage,
+      githubUrl: form.githubUrl,
+      twitterUrl: form.twitterUrl
     })
 
     // 更新主题颜色
@@ -303,6 +342,9 @@ onMounted(async () => {
   form.siteName = blogStore.config.siteName
   form.description = blogStore.config.description
   form.themeColor = blogStore.config.themeColor
+  form.bannerImage = blogStore.config.bannerImage || ''
+  form.githubUrl = blogStore.config.githubUrl || ''
+  form.twitterUrl = blogStore.config.twitterUrl || ''
   
   // 初始化分类和标签
   form.categories = [...blogStore.categories]

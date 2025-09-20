@@ -127,7 +127,19 @@
         
         <div class="editor-content">
           <div v-show="activeTab === 'write'" class="write-tab">
+            <div class="markdown-toolbar">
+              <button type="button" class="toolbar-btn" @click="insertMarkdown('**', '**')">B</button>
+              <button type="button" class="toolbar-btn" @click="insertMarkdown('*', '*')">I</button>
+              <button type="button" class="toolbar-btn" @click="insertMarkdown('# ', '')"># H1</button>
+              <button type="button" class="toolbar-btn" @click="insertMarkdown('## ', '')"># H2</button>
+              <button type="button" class="toolbar-btn" @click="insertMarkdown('- ', '')">• List</button>
+              <button type="button" class="toolbar-btn" @click="insertMarkdown('> ', '')">Quote</button>
+              <button type="button" class="toolbar-btn" @click="insertMarkdown('`', '`')">Code</button>
+              <button type="button" class="toolbar-btn" @click="insertMarkdown('[', '](url)')">Link</button>
+              <button type="button" class="toolbar-btn" @click="insertMarkdown('![alt](', ')')">Image</button>
+            </div>
             <textarea
+              ref="contentTextarea"
               v-model="form.content"
               class="form-control textarea"
               placeholder="使用 Markdown 语法编写文章内容..."
@@ -202,6 +214,7 @@ const form = ref({
 
 const newTag = ref('')
 const tagInput = ref<HTMLInputElement | null>(null)
+const contentTextarea = ref<HTMLTextAreaElement | null>(null)
 const activeTab = ref<'write' | 'preview'>('write')
 const saving = ref(false)
 const error = ref('')
@@ -234,6 +247,23 @@ function removeTag(tag: string) {
 
 function useAutoSummary() {
   form.value.summary = autoSummary.value
+}
+
+function insertMarkdown(before: string, after: string) {
+  const textarea = contentTextarea.value
+  if (!textarea) return
+  
+  const start = textarea.selectionStart
+  const end = textarea.selectionEnd
+  const selectedText = form.value.content.substring(start, end)
+  
+  const newText = before + selectedText + after
+  form.value.content = form.value.content.substring(0, start) + newText + form.value.content.substring(end)
+  
+  nextTick(() => {
+    textarea.focus()
+    textarea.setSelectionRange(start + before.length, start + before.length + selectedText.length)
+  })
 }
 
 function handlePreview() {
@@ -415,6 +445,32 @@ onMounted(async () => {
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
   overflow: hidden;
+}
+
+.markdown-toolbar {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-bottom: 1px solid var(--border-color);
+  flex-wrap: wrap;
+}
+
+.toolbar-btn {
+  padding: 0.25rem 0.5rem;
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.toolbar-btn:hover {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
 }
 
 .write-tab .textarea {

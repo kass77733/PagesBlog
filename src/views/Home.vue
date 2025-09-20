@@ -181,6 +181,14 @@ onMounted(async () => {
   
   // 获取最新评论
   await blogStore.fetchRecentComments()
+  
+  // 设置Banner背景图片
+  if (config.value.bannerImage) {
+    const heroSection = document.querySelector('.hero-section') as HTMLElement
+    if (heroSection) {
+      heroSection.style.backgroundImage = `linear-gradient(135deg, rgba(135, 206, 235, 0.8) 0%, rgba(93, 173, 226, 0.8) 100%), url(${config.value.bannerImage})`
+    }
+  }
 })
 </script>
 
@@ -191,17 +199,33 @@ onMounted(async () => {
 
 .hero-section {
   background: linear-gradient(135deg, var(--primary-color) 0%, #5dade2 100%);
+  background-size: cover;
+  background-position: center;
   color: white;
   padding: 4rem 1rem;
   text-align: center;
   margin-bottom: 2rem;
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
+  position: relative;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: var(--border-radius);
 }
 
 .hero-content {
   max-width: 800px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .hero-title {
