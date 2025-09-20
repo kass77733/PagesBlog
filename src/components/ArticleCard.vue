@@ -143,12 +143,7 @@ function onImageError(event: Event) {
 }
 
 .card-large.reverse {
-  direction: rtl;
-}
-
-.card-large.reverse .card-image,
-.card-large.reverse .card-content {
-  direction: ltr;
+  grid-template-columns: 2fr 1fr;
 }
 
 .card-image {

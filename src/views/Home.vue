@@ -38,7 +38,7 @@
               :key="article.id"
               :article="article"
               :large="true"
-              :reverse="index % 2 === 1"
+              :reverse="index % 2 === 0"
             />
           </div>
 
