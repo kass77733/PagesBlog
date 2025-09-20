@@ -128,7 +128,7 @@ function onImageError(event: Event) {
   overflow: hidden;
   box-shadow: var(--shadow);
   transition: var(--transition);
-  height: fit-content;
+  height: 200px;
 }
 
 .article-card:hover {
@@ -140,7 +140,7 @@ function onImageError(event: Event) {
   display: grid;
   grid-template-columns: 300px 1fr;
   gap: 0;
-  min-height: 200px;
+  height: 200px;
 }
 
 .card-large.reverse {
@@ -207,8 +207,9 @@ function onImageError(event: Event) {
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
   height: 100%;
+  overflow: hidden;
 }
 
 .article-meta-top {
@@ -257,16 +258,13 @@ function onImageError(event: Event) {
 
 .article-summary {
   color: var(--text-light);
-  line-height: 1.6;
+  line-height: 1.4;
   margin: 0;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-}
-
-.card-large .article-summary {
-  -webkit-line-clamp: 4;
+  flex: 1;
 }
 
 .article-tags {
