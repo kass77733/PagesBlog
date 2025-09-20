@@ -277,8 +277,8 @@ export const useBlogStore = defineStore('blog', () => {
     error.value = null
     try {
       const response = await api.auth.login(username, password)
-      if (response.success && response.data?.token) {
-        localStorage.setItem('adminToken', response.data.token)
+      if (response.success && response.token) {
+        localStorage.setItem('adminToken', response.token)
         return true
       }
       return false
