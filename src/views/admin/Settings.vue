@@ -91,6 +91,39 @@
             placeholder="https://twitter.com/username"
           >
         </div>
+        
+        <div class="form-group">
+          <label for="telegramUrl" class="form-label">Telegram链接</label>
+          <input
+            id="telegramUrl"
+            v-model="form.telegramUrl"
+            type="url"
+            class="form-control"
+            placeholder="https://t.me/username"
+          >
+        </div>
+        
+        <div class="form-group">
+          <label for="facebookUrl" class="form-label">Facebook链接</label>
+          <input
+            id="facebookUrl"
+            v-model="form.facebookUrl"
+            type="url"
+            class="form-control"
+            placeholder="https://facebook.com/username"
+          >
+        </div>
+        
+        <div class="form-group">
+          <label for="instagramUrl" class="form-label">Instagram链接</label>
+          <input
+            id="instagramUrl"
+            v-model="form.instagramUrl"
+            type="url"
+            class="form-control"
+            placeholder="https://instagram.com/username"
+          >
+        </div>
       </div>
 
       <!-- 分类管理 -->
@@ -239,6 +272,9 @@ const form = reactive({
   bannerImage: '',
   githubUrl: '',
   twitterUrl: '',
+  telegramUrl: '',
+  facebookUrl: '',
+  instagramUrl: '',
   categories: [] as string[],
   tags: [] as string[],
   adminToken: ''
@@ -289,7 +325,10 @@ async function handleSave() {
       themeColor: form.themeColor,
       bannerImage: form.bannerImage,
       githubUrl: form.githubUrl,
-      twitterUrl: form.twitterUrl
+      twitterUrl: form.twitterUrl,
+      telegramUrl: form.telegramUrl,
+      facebookUrl: form.facebookUrl,
+      instagramUrl: form.instagramUrl
     })
 
     // 更新主题颜色
@@ -345,6 +384,9 @@ onMounted(async () => {
   form.bannerImage = blogStore.config.bannerImage || ''
   form.githubUrl = blogStore.config.githubUrl || ''
   form.twitterUrl = blogStore.config.twitterUrl || ''
+  form.telegramUrl = blogStore.config.telegramUrl || ''
+  form.facebookUrl = blogStore.config.facebookUrl || ''
+  form.instagramUrl = blogStore.config.instagramUrl || ''
   
   // 初始化分类和标签
   form.categories = [...blogStore.categories]

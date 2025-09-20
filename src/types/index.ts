@@ -29,6 +29,9 @@ export interface BlogConfig {
   bannerImage?: string
   githubUrl?: string
   twitterUrl?: string
+  telegramUrl?: string
+  facebookUrl?: string
+  instagramUrl?: string
   adminToken?: string
 }
 

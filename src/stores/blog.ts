@@ -18,7 +18,10 @@ export const useBlogStore = defineStore('blog', () => {
     themeColor: '#87CEEB',
     bannerImage: '',
     githubUrl: '',
-    twitterUrl: ''
+    twitterUrl: '',
+    telegramUrl: '',
+    facebookUrl: '',
+    instagramUrl: ''
   })
   const loading = ref(false)
   const error = ref<string | null>(null)
