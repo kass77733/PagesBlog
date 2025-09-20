@@ -109,6 +109,9 @@ function scrollToTop() {
 onMounted(async () => {
   window.addEventListener('scroll', handleScroll)
   
+  // 获取配置
+  await blogStore.fetchConfig()
+  
   // 如果还没有获取数据，则获取
   if (blogStore.categories.length === 0) {
     await blogStore.fetchCategories()

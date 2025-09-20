@@ -15,7 +15,10 @@ export const useBlogStore = defineStore('blog', () => {
   const config = ref<BlogConfig>({
     siteName: '天空蓝博客',
     description: '一个现代化的个人博客系统',
-    themeColor: '#87CEEB'
+    themeColor: '#87CEEB',
+    bannerImage: '',
+    githubUrl: '',
+    twitterUrl: ''
   })
   const loading = ref(false)
   const error = ref<string | null>(null)
