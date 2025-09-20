@@ -8,15 +8,15 @@
         <div class="hero-stats">
           <div class="stat-item">
             <span class="stat-number">{{ articles.length }}</span>
-            <span class="stat-label">篇文章</span>
+            <span class="stat-label">文章</span>
           </div>
           <div class="stat-item">
             <span class="stat-number">{{ categories.length }}</span>
-            <span class="stat-label">个分类</span>
+            <span class="stat-label">分类</span>
           </div>
           <div class="stat-item">
             <span class="stat-number">{{ tags.length }}</span>
-            <span class="stat-label">个标签</span>
+            <span class="stat-label">标签</span>
           </div>
         </div>
       </div>
