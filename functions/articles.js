@@ -10,7 +10,7 @@ export async function onRequestOptions() {
 }
 
 // Token 验证函数
-function verifyToken(request) {
+function verifyToken(request, env) {
   const authHeader = request.headers.get('Authorization');
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return false;
@@ -83,8 +83,7 @@ export async function onRequestGet(context) {
 export async function onRequestPost(context) {
   const { request, env } = context;
   
-  // 验证 token
-  if (!verifyToken(request)) {
+  if (!verifyToken(request, env)) {
     return new Response(
       JSON.stringify({ success: false, message: "未授权访问" }),
       { 
@@ -141,8 +140,7 @@ export async function onRequestPost(context) {
 export async function onRequestPut(context) {
   const { request, env } = context;
   
-  // 验证 token
-  if (!verifyToken(request)) {
+  if (!verifyToken(request, env)) {
     return new Response(
       JSON.stringify({ success: false, message: "未授权访问" }),
       { 
@@ -217,8 +215,7 @@ export async function onRequestPut(context) {
 export async function onRequestDelete(context) {
   const { request, env } = context;
   
-  // 验证 token
-  if (!verifyToken(request)) {
+  if (!verifyToken(request, env)) {
     return new Response(
       JSON.stringify({ success: false, message: "未授权访问" }),
       { 
