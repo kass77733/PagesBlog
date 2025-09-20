@@ -295,12 +295,32 @@ export const useBlogStore = defineStore('blog', () => {
     loading.value = true
     error.value = null
     try {
-      const response = await api.articles.search(query, page)
-      if (response.success && response.data) {
-        articles.value = response.data
-        if (response.pagination) {
-          pagination.value = response.pagination
-        }
+      // 获取所有文章进行本地搜索
+      await fetchArticles(1, 100)
+      
+      // 本地搜索逻辑
+      const searchResults = articles.value.filter(article => {
+        const searchTerm = query.toLowerCase()
+        return (
+          article.title.toLowerCase().includes(searchTerm) ||
+          article.content.toLowerCase().includes(searchTerm) ||
+          article.category.toLowerCase().includes(searchTerm) ||
+          article.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+        )
+      })
+      
+      // 分页处理
+      const pageSize = 10
+      const startIndex = (page - 1) * pageSize
+      const endIndex = startIndex + pageSize
+      const paginatedResults = searchResults.slice(startIndex, endIndex)
+      
+      articles.value = paginatedResults
+      pagination.value = {
+        page,
+        pageSize,
+        total: searchResults.length,
+        totalPages: Math.ceil(searchResults.length / pageSize)
       }
     } catch (err) {
       error.value = '搜索文章失败'
