@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useBlogStore } from '@/stores/blog'
 import ArticleCard from '@/components/ArticleCard.vue'
@@ -84,6 +84,16 @@ onMounted(async () => {
     await blogStore.fetchArticlesByCategory(categoryName.value, 1)
   }
 })
+
+// 监听路由参数变化
+watch(
+  () => route.params.name,
+  async (newCategory) => {
+    if (newCategory) {
+      await blogStore.fetchArticlesByCategory(newCategory as string, 1)
+    }
+  }
+)
 </script>
 
 <style scoped>
