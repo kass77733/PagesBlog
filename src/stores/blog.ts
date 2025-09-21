@@ -389,6 +389,74 @@ export const useBlogStore = defineStore('blog', () => {
     }
   }
 
+  async function fetchArticlesByCategory(category: string, page = 1) {
+    loading.value = true
+    error.value = null
+    try {
+      // 获取所有文章
+      const response = await api.articles.getList(1, 100)
+      if (response.success && response.data) {
+        // 按分类过滤
+        const filteredArticles = response.data.filter(article => 
+          article.category === decodeURIComponent(category)
+        )
+        
+        // 分页处理
+        const pageSize = 10
+        const startIndex = (page - 1) * pageSize
+        const endIndex = startIndex + pageSize
+        const paginatedResults = filteredArticles.slice(startIndex, endIndex)
+        
+        articles.value = paginatedResults
+        pagination.value = {
+          page,
+          pageSize,
+          total: filteredArticles.length,
+          totalPages: Math.ceil(filteredArticles.length / pageSize)
+        }
+      }
+    } catch (err) {
+      error.value = '获取分类文章失败'
+      console.error(err)
+    } finally {
+      loading.value = false
+    }
+  }
+
+  async function fetchArticlesByTag(tag: string, page = 1) {
+    loading.value = true
+    error.value = null
+    try {
+      // 获取所有文章
+      const response = await api.articles.getList(1, 100)
+      if (response.success && response.data) {
+        // 按标签过滤
+        const filteredArticles = response.data.filter(article => 
+          article.tags.includes(decodeURIComponent(tag))
+        )
+        
+        // 分页处理
+        const pageSize = 10
+        const startIndex = (page - 1) * pageSize
+        const endIndex = startIndex + pageSize
+        const paginatedResults = filteredArticles.slice(startIndex, endIndex)
+        
+        articles.value = paginatedResults
+        pagination.value = {
+          page,
+          pageSize,
+          total: filteredArticles.length,
+          totalPages: Math.ceil(filteredArticles.length / pageSize)
+        }
+      }
+    } catch (err) {
+      error.value = '获取标签文章失败'
+      console.error(err)
+    } finally {
+      loading.value = false
+    }
+  }
+
   // 清除错误
   function clearError() {
     error.value = null
@@ -457,6 +525,8 @@ export const useBlogStore = defineStore('blog', () => {
     fetchConfig,
     updateConfig,
     searchArticles,
+    fetchArticlesByCategory,
+    fetchArticlesByTag,
     clearError,
     login,
     logout,

@@ -74,14 +74,14 @@ const pagination = computed(() => blogStore.pagination)
 // 方法
 function handlePageChange(page: number) {
   if (tagName.value) {
-    blogStore.fetchArticles(page, pagination.value.pageSize)
+    blogStore.fetchArticlesByTag(tagName.value, page)
   }
 }
 
 // 生命周期
 onMounted(async () => {
   if (tagName.value) {
-    await blogStore.fetchArticles(1, 10)
+    await blogStore.fetchArticlesByTag(tagName.value, 1)
   }
 })
 </script>
